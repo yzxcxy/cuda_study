@@ -1,4 +1,4 @@
-#include<studio.h>
+#include <stdio.h>
 
 
 // __global__ is a CUDA specifier that indicates a function that runs on the device and can be called from host code.
