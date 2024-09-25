@@ -1,11 +1,11 @@
-#pragma once
-#include <stdlib.h>
 #include <stdio.h>
+#include "./tools/common.cuh"
 
-void setGPU(){
-        //检测设备中GPU的数量
+int main(){
+    //检测设备中GPU的数量
     int deviceCount=0;
-    cudaError_t cuda_error=cudaGetDeviceCount(&deviceCount);
+    cudaError_t cuda_error;
+    cuda_error=errorCheck(cudaGetDeviceCount(&deviceCount),__FILE__,__LINE__);
 
     //判断错误情况
     if(cuda_error!=cudaSuccess || deviceCount==0){
@@ -17,21 +17,14 @@ void setGPU(){
     }
 
     //设置0号设备执行
-    int index_device=0;
-    cuda_error=cudaSetDevice(index_device);
+    int index_device=1;
+    cuda_error=errorCheck(cudaSetDevice(index_device),__FILE__,__LINE__);
     if(cuda_error!=cudaSuccess){
         printf("cudaSetDevice failed!  Do you have a CUDA-Capable GPU installed?\n");
         exit(-1);
     }else{
         printf("Set device %d to execute.\n",index_device);
     }
-}
 
-cudaError_t errorCheck(cudaError_t error,const char* filename, int line){
-    if(error!=cudaSuccess){
-        printf("CUDA error at %s:%d code=%d(%s) \n",filename,line,error,cudaGetErrorString(error));
-    }
-
-    return error;
-
+    return 0;
 }
